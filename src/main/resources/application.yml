@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: product-service
+
+  cloud:
+    stream:
+      bindings:
+        category-out-0:
+          destination: category-topic
+          content-type: application/json
+
+        inventorySync-out-0:
+          destination: product-inventory-topic
+          content-type: application/json
+
+        product-out-0:
+          destination: product-topic
+          content-type: application/json
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userServiceCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+      kafkaCB:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
