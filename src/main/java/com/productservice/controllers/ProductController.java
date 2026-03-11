@@ -107,7 +107,7 @@ public class ProductController {
 
 	@GetMapping("${api.product.get-by-id}")
 	public ResponseEntity<Product> getProductById(
-			@RequestHeader("X-USER-ID") String email,
+			@RequestHeader("X-USER-ID")
 			@PathVariable Long id) {
 
 		return ResponseEntity.ok(productService.getProductById(id));

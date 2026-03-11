@@ -8,7 +8,7 @@ api:
     delete-by-id: /{id}
     search: /search
   product:
-    base: /api/products
+    base: /api/products/v1
     create: /add
     get-all: /getAll
     get-by-id: /{id}

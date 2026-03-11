@@ -13,11 +13,15 @@ import com.productservice.repositories.ProductRepository;
 import com.productservice.services.ProductService;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import static com.productservice.specifications.ProductSpecification.*;
 
 @Service
@@ -66,6 +70,13 @@ public class ProductServiceImpl implements ProductService {
 		throw new RuntimeException("Unable to fetch products. Please try again later.", t);
 	}
 
+	public Page<Product> getAllProductsFallback(Pageable pageable, Exception ex) {
+
+		System.out.println("Fallback triggered: " + ex.getMessage());
+
+		return Page.empty(pageable);
+	}
+
 	@Override
 	@CircuitBreaker(name = "productServiceCB", fallbackMethod = "updateProductFallback")
 	public Product updateProduct(Long id, ProductCreateRequest product) {
@@ -92,8 +103,11 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.deleteById(id);
 	}
 
-	public void deleteProductFallback(Long id, Throwable t) {
-		throw new RuntimeException("Product delete service unavailable. Please try again later.", t);
+	public void deleteProductFallback(Long id, Exception ex) {
+
+		System.out.println("Circuit Breaker triggered for deleteProduct: " + ex.getMessage());
+
+		throw new RuntimeException("Product delete service unavailable. Please try again later.");
 	}
 
 	@Override
@@ -113,9 +127,27 @@ public class ProductServiceImpl implements ProductService {
 		return products;
 	}
 
-	public Page<Product> searchProductsFallback(String title, String author, String isbn, Long categoryId,
-	                                            Double minPrice, Double maxPrice, Pageable pageable, Throwable t) {
-		throw new RuntimeException("Search service unavailable. Please try again later.", t);
+	public Page<Product> searchProductsFallback(String title,
+	                                            String author,
+	                                            String isbn,
+	                                            Long categoryId,
+	                                            Double minPrice,
+	                                            Double maxPrice,
+	                                            Pageable pageable,
+	                                            Exception ex) {
+
+		System.out.println("Fallback triggered: " + ex.getMessage());
+
+		List<Product> fallbackProducts = List.of(
+				Product.builder()
+						.id(0L)
+						.title("Service temporarily unavailable")
+						.author("System")
+						.price(0.0)
+						.build()
+		);
+
+		return new PageImpl<>(fallbackProducts, pageable, fallbackProducts.size());
 	}
 
 	@Override
@@ -125,7 +157,15 @@ public class ProductServiceImpl implements ProductService {
 				.orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
 	}
 
-	public Product getProductByIdFallback(Long id, Throwable t) {
-		throw new RuntimeException("Product fetch service unavailable. Please try again later.", t);
+	public Product getProductByIdFallback(Long id, Exception ex) {
+
+		System.out.println("Circuit Breaker triggered for Product Service: " + ex.getMessage());
+
+		return Product.builder()
+				.id(id)
+				.title("Product temporarily unavailable")
+				.description("Service unavailable. Please try again later.")
+				.price(0.0)
+				.build();
 	}
 }

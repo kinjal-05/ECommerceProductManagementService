@@ -39,8 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 	}
 
-	public Category createFallback(CategoryCreateRequest request, Throwable t) {
-		throw new RuntimeException("Create category service is unavailable. Please try later.", t);
+	public Category createFallback(CategoryCreateRequest request, Exception ex) {
+
+		System.out.println("Circuit Breaker triggered for create category: " + ex.getMessage());
+
+		throw new RuntimeException("Category service is currently unavailable. Please try again later.");
 	}
 
 	@Override

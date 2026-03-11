@@ -57,8 +57,11 @@ public class ProductImageServiceImpl implements ProductImageService {
 		}
 	}
 
-	public void updateProductImageFallback(Long imageId, MultipartFile newImage, Throwable t) {
-		throw new RuntimeException("Image update service unavailable. Please try again later.", t);
+	public void updateProductImageFallback(Long imageId, MultipartFile newImage, Exception ex) {
+
+		System.out.println("Circuit Breaker triggered for updateProductImage: " + ex.getMessage());
+
+		throw new RuntimeException("Product image service unavailable. Please try again later.");
 	}
 
 	@Override
