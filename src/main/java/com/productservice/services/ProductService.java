@@ -1,8 +1,10 @@
 package com.productservice.services;
+
 import com.productservice.dtos.ProductCreateRequest;
 import com.productservice.models.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 public interface ProductService
 {
 	Product createProduct(ProductCreateRequest product);

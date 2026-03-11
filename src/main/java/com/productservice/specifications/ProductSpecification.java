@@ -1,6 +1,8 @@
 package com.productservice.specifications;
+
 import org.springframework.data.jpa.domain.Specification;
 import com.productservice.models.Product;
+
 public class ProductSpecification
 {
 	public static Specification<Product> hasTitle(String title) {

@@ -1,6 +1,8 @@
 package com.productservice.specifications;
+
 import com.productservice.models.Category;
 import org.springframework.data.jpa.domain.Specification;
+
 public class CategorySpecifications
 {
 	private CategorySpecifications() {}

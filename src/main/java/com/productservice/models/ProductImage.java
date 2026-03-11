@@ -1,7 +1,6 @@
 package com.productservice.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +18,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "product_images")
-
 @Data
 @Getter
 @Setter

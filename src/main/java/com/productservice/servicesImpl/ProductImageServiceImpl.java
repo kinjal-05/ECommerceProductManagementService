@@ -1,10 +1,10 @@
 package com.productservice.servicesImpl;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
-
 import com.productservice.models.Product;
 import com.productservice.models.ProductImage;
 import com.productservice.repositories.ProductImageRepository;
@@ -14,6 +14,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 @Service
 @RequiredArgsConstructor
 public class ProductImageServiceImpl implements ProductImageService {

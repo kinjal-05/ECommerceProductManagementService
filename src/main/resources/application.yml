@@ -1,6 +1,23 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: product-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/product_db
+    username: root
+    password: Kinu@1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
   cloud:
     stream:
@@ -40,6 +57,7 @@ resilience4j:
         waitDurationInOpenState: 5s
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
+
       kafkaCB:
         registerHealthIndicator: true
         slidingWindowSize: 5

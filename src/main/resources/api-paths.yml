@@ -1,0 +1,22 @@
+api:
+  category:
+    base: /api/categories/v1
+    create: /create
+    get-all: /getAll
+    get-by-id: /{id}
+    update-by-id: /{id}
+    delete-by-id: /{id}
+    search: /search
+  product:
+    base: /api/products
+    create: /add
+    get-all: /getAll
+    get-by-id: /{id}
+    update-by-id: /{id}
+    delete-by-id: /{id}
+    search: /search
+  product-image:
+    base: /api/product-images/v1
+    upload: /product/{productId}
+    update: /update/{imageId}
+    delete: /delete/{imageId}

@@ -1,8 +1,10 @@
 package com.productservice.services;
+
 import com.productservice.dtos.CategoryCreateRequest;
 import com.productservice.models.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 public interface CategoryService
 {
 
